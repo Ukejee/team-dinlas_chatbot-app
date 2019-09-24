@@ -1,4 +1,4 @@
-package com.tyagiabhinav.dialogflowchat;
+package com.dinlas.chatbot;
 
 import android.app.Activity;
 import android.os.AsyncTask;

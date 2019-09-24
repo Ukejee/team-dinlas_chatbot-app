@@ -1,4 +1,4 @@
-package com.tyagiabhinav.dialogflowchat;
+package com.dinlas.chatbot;
 
 import org.junit.Test;
 
