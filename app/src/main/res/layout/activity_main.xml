@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/toolbar_layout"/>
+
 
     <LinearLayout
         android:id="@+id/inputLayout"
@@ -15,6 +17,7 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="5dp"
         android:gravity="center"
+        android:elevation="3dp"
         android:padding="8dp">
 
         <EditText
@@ -47,7 +50,7 @@
         android:layout_above="@+id/inputLayout"
         app:layout_constraintBottom_toTopOf="@id/inputLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <LinearLayout
             android:id="@+id/chatLayout"
