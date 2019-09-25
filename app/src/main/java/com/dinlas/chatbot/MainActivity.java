@@ -49,19 +49,25 @@ public class MainActivity extends AppCompatActivity {
 	// Java V2
 	private SessionsClient sessionsClient;
 	private SessionName session;
+
+
+	private LinearLayout inputLayout;
+	private ImageView sendBtn;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		inputLayout = findViewById(R.id.inputLayout);
 		
 		final ScrollView scrollview = findViewById(R.id.chatScrollView);
 		scrollview.post(() -> scrollview.fullScroll(ScrollView.FOCUS_DOWN));
 		
 		chatLayout = findViewById(R.id.chatLayout);
 		
-		ImageView sendBtn = findViewById(R.id.sendBtn);
+		sendBtn = findViewById(R.id.sendBtn);
 		sendBtn.setOnClickListener(this::sendMessage);
 		
 		queryEditText = findViewById(R.id.queryEditText);
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 		});
 		
 		initV2Chatbot();
+		toggleInputLayoutFocus();
 	}
 	
 	private void initV2Chatbot() {
@@ -150,5 +157,21 @@ public class MainActivity extends AppCompatActivity {
 	FrameLayout getBotLayout() {
 		LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
 		return (FrameLayout) inflater.inflate(R.layout.bot_msg_layout, null);
+	}
+
+	//method changes the input box color attributes on and off focus
+	private void toggleInputLayoutFocus(){
+
+		inputLayout.setFocusableInTouchMode(true);
+		inputLayout.setOnFocusChangeListener((view, b) -> {
+			if(b){
+
+			}
+			else{
+
+				inputLayout.setBackground(getDrawable(R.drawable.chat_message_background));
+				sendBtn.setImageResource(R.drawable.on_focus_send_icon);
+			}
+		});
 	}
 }

@@ -5,46 +5,40 @@
     android:layout_height="match_parent">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/inputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white"
-        android:gravity="bottom"
-        android:paddingBottom="9dp"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"
-        android:paddingTop="8dp">
+        android:background="@drawable/message_box_background"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:padding="8dp">
 
-        <!--<ai.api.ui.AIButton-->
-        <!--android:id="@+id/micButton"-->
-        <!--style="@style/ApiAi.Microphone"-->
-        <!--android:layout_height="152dp"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:visibility="visible" />-->
+        <EditText
+            android:id="@+id/queryEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:background="@null"
+            android:hint="Type a message"
+            android:paddingTop="4dp"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/sendBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:paddingTop="4dp"
-            app:srcCompat="@drawable/chatbot_send_btn" />
+            android:layout_marginStart="3dp"
+            app:srcCompat="@drawable/off_focus_send_button" />
 
-        <EditText
-            android:id="@+id/queryEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/sendBtn"
-            android:imeOptions="actionSend"
-            android:inputType="text"
-            android:paddingTop="4dp"
-            android:textSize="18sp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/chatScrollView"
