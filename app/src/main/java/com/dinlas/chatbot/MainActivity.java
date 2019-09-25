@@ -44,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
 	// Java V2
 	private SessionsClient sessionsClient;
 	private SessionName session;
-
-
+	
 	private LinearLayout inputLayout;
 	private ImageView sendBtn;
 	
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	private void initV2Chatbot() {
 		try {
-			InputStream stream = getResources().openRawResource(R.raw.maveroid_agent);
+			InputStream stream = getResources().openRawResource(R.raw.agent);
 			GoogleCredentials credentials = GoogleCredentials.fromStream(stream);
 			String projectId = ((ServiceAccountCredentials) credentials).getProjectId();
 			
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 		} else {
 			showTextView(msg, USER);
 			queryEditText.setText("");
-			QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(msg).setLanguageCode("en-US")).build();
+			QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(msg).setLanguageCode("en")).build();
 			new RequestJavaV2Task(MainActivity.this, session, sessionsClient, queryInput).execute();
 		}
 	}
