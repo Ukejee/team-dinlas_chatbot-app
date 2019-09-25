@@ -41,11 +41,6 @@ public class MainActivity extends AppCompatActivity {
 	private LinearLayout chatLayout;
 	private EditText queryEditText;
 	
-	// Android client
-	private AIRequest aiRequest;
-	private AIDataService aiDataService;
-	private AIServiceContext customAIServiceContext;
-	
 	// Java V2
 	private SessionsClient sessionsClient;
 	private SessionName session;
@@ -91,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	private void initV2Chatbot() {
 		try {
-			InputStream stream = getResources().openRawResource(R.raw.agent);
+			InputStream stream = getResources().openRawResource(R.raw.maveroid_agent);
 			GoogleCredentials credentials = GoogleCredentials.fromStream(stream);
 			String projectId = ((ServiceAccountCredentials) credentials).getProjectId();
 			
