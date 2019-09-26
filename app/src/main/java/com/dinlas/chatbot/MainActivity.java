@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_DPAD_CENTER:
                     case KeyEvent.KEYCODE_ENTER:
-                        User.setUserName(queryEditText.getText().toString());
                         showTextView(queryEditText.getText().toString(), USER);
                         checkUsername(queryEditText.getText().toString());
                         queryEditText.setText("");
