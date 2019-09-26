@@ -4,9 +4,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
-	
-	<include layout="@layout/toolbar_layout" />
-	
+
 	<LinearLayout
 		android:id="@+id/inputLayout"
 		android:layout_width="match_parent"
@@ -20,7 +18,7 @@
 		android:padding="8dp"
 		app:layout_constraintBottom_toBottomOf="parent"
 		tools:targetApi="lollipop">
-		
+
 		<EditText
 			android:id="@+id/queryEditText"
 			android:layout_width="0dp"
@@ -33,7 +31,7 @@
 			android:inputType="text"
 			android:paddingTop="4dp"
 			android:textSize="18sp" />
-		
+
 		<ImageView
 			android:id="@+id/sendBtn"
 			android:layout_width="wrap_content"
@@ -43,7 +41,7 @@
 			android:paddingTop="4dp"
 			app:srcCompat="@drawable/off_focus_send_button" />
 	</LinearLayout>
-	
+
 	<ScrollView
 		android:id="@+id/chatScrollView"
 		android:layout_width="match_parent"
@@ -54,12 +52,14 @@
 		app:layout_constraintBottom_toTopOf="@id/inputLayout"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/toolbar">
-		
+
 		<LinearLayout
 			android:id="@+id/chatLayout"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical" />
 	</ScrollView>
+
+	<include layout="@layout/toolbar_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

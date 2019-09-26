@@ -1,12 +1,16 @@
 package com.dinlas.chatbot;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -35,7 +39,7 @@ import ai.api.AIServiceContext;
 import ai.api.android.AIDataService;
 import ai.api.model.AIRequest;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 	
 	private static final String TAG = MainActivity.class.getSimpleName();
 	private static final int USER = 10001;
@@ -53,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 	private ImageView sendBtn;
 
 	private String invalidNameFormatMessage = "Please enter name in this format: My name is *username*";
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
 		backBtn.setClickable(true);
 		backBtn.setFocusable(true);
+		chatLayout.setOnClickListener(this);
 
 		backBtn.setOnClickListener(view -> {
            onBackPressed();
@@ -120,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             checkUsername(queryEditText.getText().toString());
             queryEditText.setText("");
         });
-
         queryEditText.setOnKeyListener((view, keyCode, event) -> {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                 switch (keyCode) {
@@ -273,5 +276,19 @@ public class MainActivity extends AppCompatActivity {
 				sendBtn.setImageResource(R.drawable.on_focus_send_icon);
 			}
 		});
+	}
+	//method to close keyboard when the chat layout is pressed
+	public void closeKeyboard() {
+		View view = this.getCurrentFocus();
+		if (view != null) {
+			InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+		}
+	}
+	public void onClick(View view) {
+		int i = view.getId();
+		if (i == R.id.chatLayout) {
+			closeKeyboard();
+		}
 	}
 }
