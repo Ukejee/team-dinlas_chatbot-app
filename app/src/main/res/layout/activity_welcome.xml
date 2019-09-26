@@ -1,67 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".WelcomeActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/colorPrimary"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="80dp"
-                android:layout_marginTop="100dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="D"
-                    android:textColor="@color/white"
-                    android:textSize="150sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="INLAS"
-                    android:textColor="@color/white"
-                    android:textSize="50sp" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/chatbot_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Start Using ChatBot"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:layout_marginTop="80dp"
-                android:padding="15dp"
-                android:background="@drawable/button_background"
-                />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".WelcomeActivity">
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="@color/colorPrimary"
+			android:orientation="vertical">
+			
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:layout_marginTop="100dp"
+				android:layout_marginBottom="80dp"
+				android:gravity="center"
+				android:orientation="horizontal">
+				
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="D"
+					android:textColor="@color/white"
+					android:textSize="150sp"
+					android:textStyle="bold" />
+				
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:text="INLAS"
+					android:textColor="@color/white"
+					android:textSize="50sp" />
+			
+			</LinearLayout>
+			
+			<Button
+				android:id="@+id/chatbot_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:layout_marginTop="80dp"
+				android:background="@drawable/button_background"
+				android:padding="15dp"
+				android:text="Start Using ChatBot"
+				android:textColor="@color/white"
+				android:textSize="20sp" />
+		
+		</LinearLayout>
+	
+	
+	</LinearLayout>
 
 
 </LinearLayout>
