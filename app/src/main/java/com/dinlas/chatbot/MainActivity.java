@@ -233,12 +233,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case BOT:
                 layout = getBotLayout();
                 TextView tv = layout.findViewById(R.id.chatMsg);
-                tv.setText(User.getUserName() +".\n" + message);
+                tv.setText(User.getUserName() +" " + message);
                 break;
             default:
                 layout = getBotLayout();
                 TextView tv3 = layout.findViewById(R.id.chatMsg);
-                tv3.setText(User.getUserName() + ".\n" + message);
+                tv3.setText(User.getUserName() + " " + message);
                 break;
         }
         layout.setFocusableInTouchMode(true);
