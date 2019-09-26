@@ -2,6 +2,7 @@ package com.dinlas.chatbot;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -25,7 +26,10 @@ import com.google.cloud.dialogflow.v2beta1.SessionsSettings;
 import com.google.cloud.dialogflow.v2beta1.TextInput;
 
 import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import ai.api.AIServiceContext;
 import ai.api.android.AIDataService;
@@ -47,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
 	
 	private LinearLayout inputLayout;
 	private ImageView sendBtn;
+
+	private String invalidNameFormatMessage = "Please enter name in this format: My name is *username*";
 	
 	
 	@Override
@@ -62,26 +68,99 @@ public class MainActivity extends AppCompatActivity {
 		chatLayout = findViewById(R.id.chatLayout);
 		
 		sendBtn = findViewById(R.id.sendBtn);
-		sendBtn.setOnClickListener(this::sendMessage);
 		
 		queryEditText = findViewById(R.id.queryEditText);
-		queryEditText.setOnKeyListener((view, keyCode, event) -> {
-			if (event.getAction() == KeyEvent.ACTION_DOWN) {
-				switch (keyCode) {
-					case KeyEvent.KEYCODE_DPAD_CENTER:
-					case KeyEvent.KEYCODE_ENTER:
-						sendMessage(sendBtn);
-						return true;
-					default:
-						break;
-				}
-			}
-			return false;
-		});
-		
+
+		ImageView backBtn = findViewById(R.id.toolbar_back_btn);
+
+		backBtn.setClickable(true);
+		backBtn.setFocusable(true);
+
+		backBtn.setOnClickListener(view -> {
+           onBackPressed();
+        });
+
 		initV2Chatbot();
 		toggleInputLayoutFocus();
+		initChatResponse();
+
 	}
+
+	//starts sending the communication to the DialogFlow bot
+	private void setUpSendBtn(){
+
+        sendBtn.setOnClickListener(this::sendMessage);
+
+        queryEditText.setOnKeyListener((view, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_DPAD_CENTER:
+                    case KeyEvent.KEYCODE_ENTER:
+                        sendMessage(sendBtn);
+                        return true;
+                    default:
+                        break;
+                }
+            }
+            return false;
+        });
+    }
+
+    //Loads the initial bot responses before it is taken over by DialogFlow bot
+	private void initChatResponse(){
+
+        new Handler().postDelayed(() -> showTextView("Hi I'm Amaka, Dinlas Official Chat Bot and I'm here to help you", BOT), 500);
+
+        new Handler().postDelayed(() -> showTextView("What shall I call you ?", BOT), 1000);
+
+        new Handler().postDelayed(() -> showTextView(invalidNameFormatMessage, BOT), 1500);
+
+        sendBtn.setOnClickListener(view -> {
+            showTextView(queryEditText.getText().toString(), USER);
+            checkUsername(queryEditText.getText().toString());
+            queryEditText.setText("");
+        });
+
+        queryEditText.setOnKeyListener((view, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_DPAD_CENTER:
+                    case KeyEvent.KEYCODE_ENTER:
+                        User.setUserName(queryEditText.getText().toString());
+                        showTextView(queryEditText.getText().toString(), USER);
+                        checkUsername(queryEditText.getText().toString());
+                        queryEditText.setText("");
+                        return true;
+                    default:
+                        break;
+                }
+            }
+            return false;
+        });
+    }
+
+    //checks the username validity
+    private void checkUsername(String username){
+
+	    String[] arrOfString = username.split(" ");
+
+	    if(username.contains("My name is ")){
+
+            if(arrOfString.length >= 4){
+                User.setUserName(arrOfString[3]);
+                showTextView("Nice to meet you " + User.getUserName(), BOT);
+                showTextView("How can I help you " + User.getUserName(), BOT);
+                setUpSendBtn();
+            }
+            else{
+                showTextViewV2(invalidNameFormatMessage, BOT);
+            }
+
+        }else{
+            showTextViewV2(invalidNameFormatMessage, BOT);
+        }
+
+    }
 	
 	private void initV2Chatbot() {
 		try {
@@ -115,10 +194,10 @@ public class MainActivity extends AppCompatActivity {
 			// process aiResponse here
 			String botReply = response.getQueryResult().getFulfillmentText();
 			Log.d(TAG, "V2 Bot Reply: " + botReply);
-			showTextView(botReply, BOT);
+			showTextViewV2(botReply, BOT);
 		} else {
 			Log.d(TAG, "Bot Reply: Null");
-			showTextView("There was some communication issue. Please Try again!", BOT);
+			showTextViewV2(" there was some communication issue. Please Try again!", BOT);
 		}
 	}
 	
@@ -142,6 +221,33 @@ public class MainActivity extends AppCompatActivity {
 		layout.requestFocus();
 		queryEditText.requestFocus(); // change focus back to edit text to continue typing
 	}
+
+
+	//Appends username to every bot reply
+    private void showTextViewV2(String message, int type) {
+        FrameLayout layout;
+        switch (type) {
+            case USER:
+                layout = getUserLayout();
+                TextView tv2 = layout.findViewById(R.id.chatMsg);
+                tv2.setText(message);
+                break;
+            case BOT:
+                layout = getBotLayout();
+                TextView tv = layout.findViewById(R.id.chatMsg);
+                tv.setText(User.getUserName() +" " + message);
+                break;
+            default:
+                layout = getBotLayout();
+                TextView tv3 = layout.findViewById(R.id.chatMsg);
+                tv3.setText(User.getUserName() + " " + message);
+                break;
+        }
+        layout.setFocusableInTouchMode(true);
+        chatLayout.addView(layout); // move focus to text view to automatically make it scroll up if softfocus
+        layout.requestFocus();
+        queryEditText.requestFocus(); // change focus back to edit text to continue typing
+    }
 	
 	FrameLayout getUserLayout() {
 		LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
