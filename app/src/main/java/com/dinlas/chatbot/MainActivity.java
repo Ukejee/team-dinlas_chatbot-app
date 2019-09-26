@@ -40,8 +40,6 @@ import ai.api.android.AIDataService;
 import ai.api.model.AIRequest;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-	
-	private static final String TAG = MainActivity.class.getSimpleName();
 	private static final int USER = 10001;
 	private static final int BOT = 10002;
 	
@@ -151,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(arrOfString.length >= 4){
                 User.setUserName(arrOfString[3]);
                 showTextView("Nice to meet you " + User.getUserName(), BOT);
-                showTextView("How can I help you " + User.getUserName(), BOT);
+                showTextView("How can I help you with HNG Internship", BOT);
                 setUpSendBtn();
             }
             else{
@@ -195,11 +193,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		if (response != null) {
 			// process aiResponse here
 			String botReply = response.getQueryResult().getFulfillmentText();
-			Log.d(TAG, "V2 Bot Reply: " + botReply);
 			showTextViewV2(botReply, BOT);
 		} else {
-			Log.d(TAG, "Bot Reply: Null");
-			showTextViewV2(" there was some communication issue. Please Try again!", BOT);
+			showTextViewV2("There was some communication issue. Please go back one step and try again", BOT);
 		}
 	}
 	
@@ -237,12 +233,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case BOT:
                 layout = getBotLayout();
                 TextView tv = layout.findViewById(R.id.chatMsg);
-                tv.setText(User.getUserName() +" " + message);
+                tv.setText(User.getUserName() +".\n" + message);
                 break;
             default:
                 layout = getBotLayout();
                 TextView tv3 = layout.findViewById(R.id.chatMsg);
-                tv3.setText(User.getUserName() + " " + message);
+                tv3.setText(User.getUserName() + ".\n" + message);
                 break;
         }
         layout.setFocusableInTouchMode(true);
