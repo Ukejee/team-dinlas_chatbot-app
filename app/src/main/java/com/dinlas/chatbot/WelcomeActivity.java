@@ -24,7 +24,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 //method or intent  that takes one to chat screen after clicking the button
 
-                Intent startChatScreen = new Intent(WelcomeActivity.this , MainActivity.class);
+                Intent startChatScreen = new Intent(WelcomeActivity.this , ChatActivity.class);
                 startActivity(startChatScreen);
             }
         });

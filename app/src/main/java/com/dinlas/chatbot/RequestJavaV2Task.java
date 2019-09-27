@@ -41,6 +41,6 @@ public class RequestJavaV2Task extends AsyncTask<Void, Void, DetectIntentRespons
 
     @Override
     protected void onPostExecute(DetectIntentResponse response) {
-        ((MainActivity) activity).callbackV2(response);
+        ((ChatActivity) activity).callbackV2(response);
     }
 }

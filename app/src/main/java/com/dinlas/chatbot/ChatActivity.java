@@ -1,12 +1,10 @@
 package com.dinlas.chatbot;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,16 +28,9 @@ import com.google.cloud.dialogflow.v2beta1.SessionsSettings;
 import com.google.cloud.dialogflow.v2beta1.TextInput;
 
 import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
-import ai.api.AIServiceContext;
-import ai.api.android.AIDataService;
-import ai.api.model.AIRequest;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
 	private static final int USER = 10001;
 	private static final int BOT = 10002;
 	
@@ -54,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private LinearLayout inputLayout;
 	private ImageView sendBtn;
 
-	private String invalidNameFormatMessage = "Please enter name in this format: My name is *username*";
+	private String invalidNameFormatMessage = "Please enter name in this format: My name is \"username\"";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,19 +135,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 	    String[] arrOfString = username.split(" ");
 
-	    if(username.contains("My name is ")){
-
-            if(arrOfString.length >= 4){
+	    if(username.contains("My name is ") || !username.contains(" ")){
+	    	if (!username.contains(" ")) {
+			    User.setUserName(username);
+			    showTextView("Nice to meet you " + User.getUserName(), BOT);
+			    showTextView("How can I help you with HNG Internship", BOT);
+			    setUpSendBtn();
+		    } else if(arrOfString.length >= 4){
                 User.setUserName(arrOfString[3]);
                 showTextView("Nice to meet you " + User.getUserName(), BOT);
-                showTextView("How can I help you with HNG Internship", BOT);
+                showTextView("What did you want to know about HNG Internship", BOT);
                 setUpSendBtn();
-            }
-            else{
+            } else {
                 showTextViewV2(invalidNameFormatMessage, BOT);
             }
-
-        }else{
+        } else {
             showTextViewV2(invalidNameFormatMessage, BOT);
         }
 
@@ -180,12 +173,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private void sendMessage(View view) {
 		String msg = queryEditText.getText().toString();
 		if (msg.trim().isEmpty()) {
-			Toast.makeText(MainActivity.this, "Please enter your query!", Toast.LENGTH_LONG).show();
+			Toast.makeText(ChatActivity.this, "Please enter your query!", Toast.LENGTH_LONG).show();
 		} else {
 			showTextView(msg, USER);
 			queryEditText.setText("");
 			QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(msg).setLanguageCode("en")).build();
-			new RequestJavaV2Task(MainActivity.this, session, sessionsClient, queryInput).execute();
+			new RequestJavaV2Task(ChatActivity.this, session, sessionsClient, queryInput).execute();
 		}
 	}
 	
@@ -233,12 +226,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case BOT:
                 layout = getBotLayout();
                 TextView tv = layout.findViewById(R.id.chatMsg);
-                tv.setText(User.getUserName() +" " + message);
+                tv.setText(User.getUserName() +"\n" + message);
                 break;
             default:
                 layout = getBotLayout();
                 TextView tv3 = layout.findViewById(R.id.chatMsg);
-                tv3.setText(User.getUserName() + " " + message);
+                tv3.setText(User.getUserName() + "\n" + message);
                 break;
         }
         layout.setFocusableInTouchMode(true);
@@ -248,12 +241,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 	
 	FrameLayout getUserLayout() {
-		LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+		LayoutInflater inflater = LayoutInflater.from(ChatActivity.this);
 		return (FrameLayout) inflater.inflate(R.layout.user_msg_layout, null);
 	}
 	
 	FrameLayout getBotLayout() {
-		LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+		LayoutInflater inflater = LayoutInflater.from(ChatActivity.this);
 		return (FrameLayout) inflater.inflate(R.layout.bot_msg_layout, null);
 	}
 
@@ -285,5 +278,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		if (i == R.id.chatLayout) {
 			closeKeyboard();
 		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		User.setUserName("");
+		super.onDestroy();
 	}
 }
